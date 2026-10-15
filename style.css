@@ -1,6 +1,319 @@
-a{
-font-size: 32px;
-font-weight: bold;
-font-family: serif;
+:root {
+  --bg: #14161a;
+  --tile: #1e2126;
+  --tile-hover: #262a31;
+  --text: #e8eaed;
+  --muted: #9aa0a6;
+  --accent: #6aa9ff;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding: 2rem 1rem;
+}
+
+#links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 640px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1.25rem 1rem;
+  background: var(--tile);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+
+a:hover,
+a:focus-visible {
+  background: var(--tile-hover);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* favicons */
+.icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.icon-letter {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: var(--tile-hover);
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: lowercase;
+}
+
+.settings-name {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.settings-name .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.settings-name .icon img {
+  width: 16px;
+  height: 16px;
+}
+
+/* settings gear */
+.gear {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: var(--tile);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+.gear:hover,
+.gear:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* settings dialog */
+#settings-dialog {
+  width: min(460px, calc(100vw - 2rem));
+  padding: 1.25rem;
+  background: var(--tile);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+#settings-dialog::backdrop {
+  background: var(--scrim);
+}
+
+#settings-dialog form[method="dialog"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+#settings-dialog h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.close {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--text);
+}
+
+.settings-list {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  max-height: 40vh;
+  overflow-y: auto;
+  border-top: 1px solid var(--border);
+}
+
+.settings-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remove {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.remove:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.save {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.save:hover {
+  color: var(--accent-on);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.settings-list li.editing {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.edit-name,
+.edit-url {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 0.4rem 0.5rem;
+  font: inherit;
+}
+
+.edit-name {
+  flex: 0 1 6rem;
+}
+
+.edit-url {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.edit-name:focus-visible,
+.edit-url:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.add-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1 1 8rem;
+}
+
+.field span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.field input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 0.5rem;
+  font: inherit;
+}
+
+.field input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.primary {
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  color: var(--accent-on);
+  padding: 0.55rem 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary:hover {
+  filter: brightness(1.1);
+}

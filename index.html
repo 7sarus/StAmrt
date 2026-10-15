@@ -4,15 +4,41 @@
     <meta charset="UTF-8">
     <title>StAmrt - a simple start page</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Written by noctalia/stamrt-theme.py on Noctalia's colors_changed hook. -->
+    <link rel="stylesheet" href="theme.css">
 </head>
 <body>
-    <ul>
-        <li><a href="https://mail.google.com">gmail</a></li>
-        <li><a href="https://goodreads.com">goodreads</a></li>
-        <li><a href="https://github.com">github</a></li>
-        <li><a href="https://www.theodinproject.com">odinproject</a></li>
-        <li><a href="https://youtube.com">youtube</a></li>
-        <li><a href="https://reddit.com">reddit</a></li>
-    </ul>
+    <button id="settings" class="gear" type="button" aria-label="Settings" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+            <path fill="currentColor"
+                d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm9.4 4c0-.6-.05-1.2-.15-1.76l2.02-1.5-2-3.46-2.4.94a8.3 8.3 0 0 0-3.05-1.77L15.4 2h-4l-.42 2.45c-1.1.3-2.1.85-3.05 1.77l-2.4-.94-2 3.46 2.02 1.5c-.1.56-.15 1.16-.15 1.76s.05 1.2.15 1.76l-2.02 1.5 2 3.46 2.4-.94a8.3 8.3 0 0 0 3.05 1.77L11.4 22h4l.42-2.45a8.3 8.3 0 0 0 3.05-1.77l2.4.94 2-3.46-2.02-1.5c.1-.56.15-1.16.15-1.76Z" />
+        </svg>
+    </button>
+
+    <ul id="links"></ul>
+
+    <dialog id="settings-dialog" aria-labelledby="settings-title">
+        <form method="dialog">
+            <h2 id="settings-title">Links</h2>
+            <button class="close" value="close" aria-label="Close settings">&times;</button>
+        </form>
+
+        <ul id="settings-list" class="settings-list"></ul>
+
+        <form id="add-form" class="add-form">
+            <label class="field">
+                <span>Name</span>
+                <input type="text" id="add-name" placeholder="hardcover" required maxlength="40">
+            </label>
+            <label class="field">
+                <span>URL</span>
+                <input type="text" id="add-url" placeholder="hardcover.app" required maxlength="2000">
+            </label>
+            <button type="submit" class="primary">Add</button>
+        </form>
+    </dialog>
+
+    <script src="db.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
