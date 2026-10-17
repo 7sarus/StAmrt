@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "StAmrt",
+  "version": "1.0.0",
+  "description": "A start page that wears your Noctalia colours, your wallpaper and the pywalfox palette Firefox is themed from.",
+  "author": "7sarus",
+  "homepage_url": "https://github.com/7sarus/StAmrt",
+
+  "icons": {
+    "48": "icons/stamrt-48.png",
+    "96": "icons/stamrt-96.png",
+    "128": "icons/stamrt-128.png"
+  },
+
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+
+  "permissions": ["storage"],
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "stamrt@7sarus.github.io",
+      "strict_min_version": "115.0"
+    }
+  }
+}

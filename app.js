@@ -49,9 +49,9 @@ function makeIcon(site) {
   if (sources.length === 0) return box;
 
   const img = document.createElement("img");
-  img.src = sources[0];
   img.alt = "";
   img.loading = "lazy";
+  img.referrerPolicy = "no-referrer";
 
   let index = 0;
   img.addEventListener("load", () => box.replaceChildren(img));
@@ -63,6 +63,7 @@ function makeIcon(site) {
       box.replaceChildren(letter);
     }
   });
+  img.src = sources[0];
 
   return box;
 }
@@ -99,7 +100,7 @@ function renderEditRow(site) {
   url.maxLength = 2000;
   url.setAttribute("aria-label", "URL");
 
-  const save = () => {
+  const save = async () => {
     const normalized = normalizeUrl(url.value);
     if (!normalized) {
       url.setCustomValidity("That does not look like a URL");
@@ -107,7 +108,7 @@ function renderEditRow(site) {
       return;
     }
     editingId = null;
-    render(db.update(site.id, { name: name.value.trim() || site.name, url: normalized }));
+    render(await db.update(site.id, { name: name.value.trim() || site.name, url: normalized }));
   };
 
   name.addEventListener("keydown", (e) => e.key === "Enter" && save());
@@ -120,7 +121,7 @@ function renderEditRow(site) {
     button("Save", "save", save),
     button("Cancel", "remove", () => {
       editingId = null;
-      render(db.getAll());
+      refresh();
     })
   );
 
@@ -143,9 +144,9 @@ function renderSettingsRow(site) {
   actions.append(
     button("Edit", "remove", () => {
       editingId = site.id;
-      render(db.getAll());
+      refresh();
     }),
-    button("Remove", "remove", () => render(db.remove(site.id)))
+    button("Remove", "remove", async () => render(await db.remove(site.id)))
   );
 
   li.append(label, actions);
@@ -159,9 +160,13 @@ function render(sites) {
   );
 }
 
+async function refresh() {
+  render(await db.getAll());
+}
+
 gear.addEventListener("click", () => dialog.showModal());
 
-addForm.addEventListener("submit", (event) => {
+addForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const url = normalizeUrl(urlInput.value);
   if (!url) {
@@ -172,11 +177,11 @@ addForm.addEventListener("submit", (event) => {
   urlInput.setCustomValidity("");
 
   const name = nameInput.value.trim();
-  render(db.add({ id: uid(), name: name || new URL(url).hostname, url }));
+  render(await db.add({ id: uid(), name: name || new URL(url).hostname, url }));
   addForm.reset();
   nameInput.focus();
 });
 
 urlInput.addEventListener("input", () => urlInput.setCustomValidity(""));
 
-render(db.getAll());
+refresh();

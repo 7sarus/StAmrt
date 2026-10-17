@@ -1,10 +1,20 @@
 :root {
   --bg: #14161a;
+  --bg-deep: #0e1013;
   --tile: #1e2126;
   --tile-hover: #262a31;
+  --border: #2b2f36;
   --text: #e8eaed;
   --muted: #9aa0a6;
   --accent: #6aa9ff;
+  --accent-on: #0d1117;
+  --danger: #ff6b6b;
+  --scrim: rgba(0, 0, 0, 0.6);
+  /* theme.css, generated from the Noctalia palette, replaces all of the above
+     plus these three. Without Noctalia the page falls back to this palette. */
+  --wallpaper: none;
+  --accent-veil: rgba(106, 169, 255, 0.16);
+  --shade: rgba(0, 0, 0, 0.55);
 }
 
 * {
@@ -18,7 +28,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--accent-veil), var(--accent-veil)),
+    linear-gradient(var(--shade), var(--shade)),
+    var(--wallpaper);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   padding: 2rem 1rem;
